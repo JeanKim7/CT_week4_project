@@ -62,32 +62,76 @@ class Card:
 class Player:
     """Object representing a player"""
     
-    def __init__(self):
+    def __init__(self, money):
         self.cards = []
+        self.count = 0
+        self.ace_count = 0
+        self.money = money
 
     def initial_card(self):
         first_card = Card()
         second_card = Card()
         self.cards.append(first_card)
         self.cards.append(second_card)
+        for card in self.cards:
+            if card.face == "A" and self.ace_count == 0:
+                card.value = card.value[1]
+                self.ace_count += 1
+            elif card.face == "A" and self.ace_count >=1:
+                card.value = card.value[0]
+                self.ace_count += 1
+        self.count += (first_card.value +second_card.value)
 
     def hit(self):
         new_card = Card()
         self.cards.append(new_card)
+        if self.count <= 10:
+            if new_card.face == "A" and self.ace_count == 0:
+                new_card.value = new_card.value[1]
+                self.ace_count += 1
+            elif new_card.face == "A" and self.ace_count >=1:
+                new_card.value = new_card.value[0]
+                self.ace_count+= 1
+        else:
+            if new_card.face == "A":
+                new_card.value = new_card.value[0]
+                self.ace_count+= 1
+        self.count += new_card.value
 
 class Dealer:
     """Object representing a dealer"""
     
     def __init__(self):
         self.cards = []
+        self.count = 0
+        self.ace_count = 0
 
     def initial_card(self):
         first_card = Card()
         second_card = Card()
         self.cards.append(first_card)
         self.cards.append(second_card)
+        for card in self.cards:
+            if card.face == "A" and self.ace_count == 0:
+                card.value = card.value[1]
+                self.ace_count += 1
+            elif card.face == "A" and self.ace_count >=1:
+                card.value = card.value[0]
+                self.ace_count += 1
+        self.count += (first_card.value +second_card.value)
 
     def hit(self):
         new_card = Card()
         self.cards.append(new_card)
-
+        if self.count <= 10:
+            if new_card.face == "A" and self.ace_count == 0:
+                new_card.value = new_card.value[1]
+                self.ace_count += 1
+            elif new_card.face == "A" and self.ace_count >=1:
+                new_card.value = new_card.value[0]
+                self.ace_count+= 1
+        else:
+            if new_card.face == "A":
+                new_card.value = new_card.value[0]
+                self.ace_count+= 1
+        self.count += new_card.value
