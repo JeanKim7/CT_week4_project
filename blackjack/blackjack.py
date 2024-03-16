@@ -14,7 +14,7 @@
 
 # `5. ` The Player will never see the Dealer's hand until the Player chooses to 'stand'. A Stand is when the player tells the dealer to not deal it anymore cards. Once the player chooses to Stand, the Player and the Dealer will compare their hands. Whoever has the higher number wins. Keep in mind that the Dealer can also bust. 
 
-import time, Player, Dealer
+import time, Player, Dealer, Card
 
 class BlackJack:
 
@@ -22,16 +22,83 @@ class BlackJack:
         self.player = Player()
         self.dealer = Dealer()
 
+    def cash_in(self):
+        cashin = input("How much would you like to cash in for? \n$")
+        self.player.money = float(cashin)
+
     def shuffle_deal(self):
+        self.player.place_bet()
         print("Shuffling and dealing cards...")
         time.sleep(2)
-        self.player.intial_card()
-        self.dealer.intial_card()
+        self.player.intial_cards()
+        self.dealer.intial_cards()
         print(f"The dealer has the {self.dealer.cards[0]} and another face-down card.\n"
               f"\nYou have the {self.player.cards[0]} and {self.player.cards[1]}")
+        if self.player.count == 21:
+            self.stand()
+
         
     def hit_player(self):
         self.player.hit()
+        print(f"You now have a count of {self.player.count}:")
+        for card in self.player.cards:
+            print(card)
+        if self.player.count == 21:
+            self.stand()
+        elif self.player.count > 21:
+            self.__lost()
+    
+    def __lost(self):
+        self.player.money -= self.player.current_bet
+        self.__reset()
+        print(f"Sorry, you got over 21, you busted! You now have ${self.player.money:.2f}")
+
+    def __reset(self):
+        Card.chosen_cards = []
+        self.player.cards = []
+        self.player.count = 0
+        self.player.ace_count = 0
+        self.player.current_bet = 0
+        self.dealer.cards = []
+        self.dealer.count = 0
+        self.dealer.ace_count = 0
+
+    def stand(self):
+        print(f"The dealer's hand is {self.dealer.cards[0]} and {self.dealer.cards[1]}.")
+        if self.dealer.count >= 17 and self.dealer.count<=21:
+            if self.player.count > self.dealer.count:
+                self.player.money += self.player.bet
+                print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
+                self.__reset()
+            elif self.player.count < self.dealer.count:
+                self.__lost()
+            else:
+                print("It's a draw. Place another bet to play again!")
+                self.__reset()
+        elif self.dealer.count<17:
+            while self.dealer.count<17:
+                self.dealer.hit()
+                print(f"The dealer has a count of {self.dealer.count}:")
+                for card in self.dealer.cards:
+                    print(card)
+            if self.dealer.count >= 17 and self.dealer.count<=21:
+                if self.player.count > self.dealer.count:
+                    self.player.money += self.player.bet
+                    print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
+                    self.__reset()
+                elif self.player.count < self.dealer.count:
+                    self.__lost()
+                else:
+                    print("It's a draw. Place another bet to play again!")
+                    self.__reset()
+            else:
+                self.player.money += self.player.bet
+                print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
+                self.__reset()
+                
+            
+
+    
         
 
 

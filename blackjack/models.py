@@ -66,11 +66,24 @@ class Player:
         self.cards = []
         self.count = 0
         self.ace_count = 0
-        self.money = money
+        self.money = 0
+        self.current_bet = 0
 
-    def initial_card(self):
+    def place_bet(self):
+        bet_amount =input("How much would you like to bet? $")
+        while float(bet_amount) == False:
+            print("Please enter a number only!")
+            bet_amount =input("How much would you like to bet? $")
+        while float(bet_amount) >self.money:
+            print(f"You can't bet more than the amount you cashed in!")
+            bet_amount =input("How much would you like to bet? $")
+        self.current_bet = bet_amount
+
+    def initial_cards(self):
         first_card = Card()
         second_card = Card()
+        first_card.choose_card()
+        second_card.choose_card()
         self.cards.append(first_card)
         self.cards.append(second_card)
         for card in self.cards:
@@ -84,6 +97,7 @@ class Player:
 
     def hit(self):
         new_card = Card()
+        new_card.choose_card()
         self.cards.append(new_card)
         if self.count <= 10:
             if new_card.face == "A" and self.ace_count == 0:
@@ -106,9 +120,11 @@ class Dealer:
         self.count = 0
         self.ace_count = 0
 
-    def initial_card(self):
+    def initial_cards(self):
         first_card = Card()
         second_card = Card()
+        first_card.choose_card()
+        second_card.choose_card()
         self.cards.append(first_card)
         self.cards.append(second_card)
         for card in self.cards:
@@ -135,3 +151,4 @@ class Dealer:
                 new_card.value = new_card.value[0]
                 self.ace_count+= 1
         self.count += new_card.value
+
