@@ -31,7 +31,7 @@ class Card:
             "Jack": 10,
             "Queen": 10,
             "King": 10,
-            "Ace": [1, 11]
+            "Ace": 0
             }
         
         self.suit = random.choice(suits)
@@ -62,7 +62,7 @@ class Card:
 class Player:
     """Object representing a player"""
     
-    def __init__(self, money):
+    def __init__(self):
         self.cards = []
         self.count = 0
         self.ace_count = 0
@@ -88,10 +88,10 @@ class Player:
         self.cards.append(second_card)
         for card in self.cards:
             if card.face == "A" and self.ace_count == 0:
-                card.value = card.value[1]
+                card.value = 11
                 self.ace_count += 1
             elif card.face == "A" and self.ace_count >=1:
-                card.value = card.value[0]
+                card.value = 1
                 self.ace_count += 1
         self.count += (first_card.value +second_card.value)
 
@@ -101,16 +101,17 @@ class Player:
         self.cards.append(new_card)
         if self.count <= 10:
             if new_card.face == "A" and self.ace_count == 0:
-                new_card.value = new_card.value[1]
+                new_card.value = 11
                 self.ace_count += 1
             elif new_card.face == "A" and self.ace_count >=1:
-                new_card.value = new_card.value[0]
+                new_card.value = 0
                 self.ace_count+= 1
         else:
             if new_card.face == "A":
-                new_card.value = new_card.value[0]
+                new_card.value = 0
                 self.ace_count+= 1
         self.count += new_card.value
+
 
 class Dealer:
     """Object representing a dealer"""
@@ -129,10 +130,10 @@ class Dealer:
         self.cards.append(second_card)
         for card in self.cards:
             if card.face == "A" and self.ace_count == 0:
-                card.value = card.value[1]
+                card.value = 11
                 self.ace_count += 1
             elif card.face == "A" and self.ace_count >=1:
-                card.value = card.value[0]
+                card.value = 1
                 self.ace_count += 1
         self.count += (first_card.value +second_card.value)
 
@@ -141,14 +142,14 @@ class Dealer:
         self.cards.append(new_card)
         if self.count <= 10:
             if new_card.face == "A" and self.ace_count == 0:
-                new_card.value = new_card.value[1]
+                new_card.value = 11
                 self.ace_count += 1
             elif new_card.face == "A" and self.ace_count >=1:
-                new_card.value = new_card.value[0]
+                new_card.value = 1
                 self.ace_count+= 1
         else:
             if new_card.face == "A":
-                new_card.value = new_card.value[0]
+                new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
 

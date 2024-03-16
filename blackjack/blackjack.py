@@ -14,7 +14,8 @@
 
 # `5. ` The Player will never see the Dealer's hand until the Player chooses to 'stand'. A Stand is when the player tells the dealer to not deal it anymore cards. Once the player chooses to Stand, the Player and the Dealer will compare their hands. Whoever has the higher number wins. Keep in mind that the Dealer can also bust. 
 
-import time, Player, Dealer, Card
+import time 
+from models import Player, Dealer, Card
 
 class BlackJack:
 
@@ -30,8 +31,8 @@ class BlackJack:
         self.player.place_bet()
         print("Shuffling and dealing cards...")
         time.sleep(2)
-        self.player.intial_cards()
-        self.dealer.intial_cards()
+        self.player.initial_cards()
+        self.dealer.initial_cards()
         print(f"The dealer has the {self.dealer.cards[0]} and another face-down card.\n"
               f"\nYou have the {self.player.cards[0]} and {self.player.cards[1]}")
         if self.player.count == 21:
@@ -40,7 +41,7 @@ class BlackJack:
         
     def hit_player(self):
         self.player.hit()
-        print(f"You now have a count of {self.player.count}:")
+        print(f"You now have a count of {self.player.count} and you have:")
         for card in self.player.cards:
             print(card)
         if self.player.count == 21:
@@ -78,7 +79,7 @@ class BlackJack:
         elif self.dealer.count<17:
             while self.dealer.count<17:
                 self.dealer.hit()
-                print(f"The dealer has a count of {self.dealer.count}:")
+                print(f"The dealer has a count of {self.dealer.count} nad has:")
                 for card in self.dealer.cards:
                     print(card)
             if self.dealer.count >= 17 and self.dealer.count<=21:
