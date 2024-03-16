@@ -47,12 +47,13 @@ class BlackJack:
         if self.player.count == 21:
             self.stand()
         elif self.player.count > 21:
+            print("You got over 21 and busted!")
             self.__lost()
-    
+
     def __lost(self):
         self.player.money -= self.player.current_bet
         self.__reset()
-        print(f"Sorry, you got over 21, you busted! You now have ${self.player.money:.2f}")
+        print(f"Sorry, you lost! You now have ${self.player.money:.2f}")
 
     def __reset(self):
         Card.chosen_cards = []
@@ -68,10 +69,11 @@ class BlackJack:
         print(f"The dealer's hand is {self.dealer.cards[0]} and {self.dealer.cards[1]}.")
         if self.dealer.count >= 17 and self.dealer.count<=21:
             if self.player.count > self.dealer.count:
-                self.player.money += self.player.bet
+                self.player.money += self.player.current_bet
                 print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
                 self.__reset()
             elif self.player.count < self.dealer.count:
+                print("You have a count lower than the dealer!")
                 self.__lost()
             else:
                 print("It's a draw. Place another bet to play again!")
@@ -79,21 +81,23 @@ class BlackJack:
         elif self.dealer.count<17:
             while self.dealer.count<17:
                 self.dealer.hit()
-                print(f"The dealer has a count of {self.dealer.count} nad has:")
+                print("The dealer hits.")
+                print(f"The dealer has a count of {self.dealer.count} and has:")
                 for card in self.dealer.cards:
                     print(card)
             if self.dealer.count >= 17 and self.dealer.count<=21:
                 if self.player.count > self.dealer.count:
-                    self.player.money += self.player.bet
+                    self.player.money += self.player.current_bet
                     print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
                     self.__reset()
                 elif self.player.count < self.dealer.count:
+                    print("You got a count lower than the dealer!")
                     self.__lost()
                 else:
                     print("It's a draw. Place another bet to play again!")
                     self.__reset()
             else:
-                self.player.money += self.player.bet
+                self.player.money += self.player.current_bet
                 print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
                 self.__reset()
                 

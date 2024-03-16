@@ -31,7 +31,7 @@ class Card:
             "Jack": 10,
             "Queen": 10,
             "King": 10,
-            "Ace": 0
+            "Ace": 11
             }
         
         self.suit = random.choice(suits)
@@ -77,7 +77,7 @@ class Player:
         while float(bet_amount) >self.money:
             print(f"You can't bet more than the amount you cashed in!")
             bet_amount =input("How much would you like to bet? $")
-        self.current_bet = bet_amount
+        self.current_bet = float(bet_amount)
 
     def initial_cards(self):
         first_card = Card()
@@ -87,10 +87,10 @@ class Player:
         self.cards.append(first_card)
         self.cards.append(second_card)
         for card in self.cards:
-            if card.face == "A" and self.ace_count == 0:
+            if card.face == "Ace" and self.ace_count == 0:
                 card.value = 11
                 self.ace_count += 1
-            elif card.face == "A" and self.ace_count >=1:
+            elif card.face == "Ace" and self.ace_count >= 1:
                 card.value = 1
                 self.ace_count += 1
         self.count += (first_card.value +second_card.value)
@@ -100,17 +100,19 @@ class Player:
         new_card.choose_card()
         self.cards.append(new_card)
         if self.count <= 10:
-            if new_card.face == "A" and self.ace_count == 0:
+            if new_card.face == "Ace" and self.ace_count == 0:
                 new_card.value = 11
                 self.ace_count += 1
-            elif new_card.face == "A" and self.ace_count >=1:
-                new_card.value = 0
+            elif new_card.face == "Ace" and self.ace_count >=1:
+                new_card.value = 1
                 self.ace_count+= 1
         else:
-            if new_card.face == "A":
-                new_card.value = 0
+            if new_card.face == "Ace":
+                new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
+        if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
+            self.count -= 10
 
 
 class Dealer:
@@ -129,27 +131,30 @@ class Dealer:
         self.cards.append(first_card)
         self.cards.append(second_card)
         for card in self.cards:
-            if card.face == "A" and self.ace_count == 0:
+            if card.face == "Ace" and self.ace_count == 0:
                 card.value = 11
                 self.ace_count += 1
-            elif card.face == "A" and self.ace_count >=1:
+            elif card.face == "Ace" and self.ace_count >= 1:
                 card.value = 1
                 self.ace_count += 1
         self.count += (first_card.value +second_card.value)
 
     def hit(self):
         new_card = Card()
+        new_card.choose_card()
         self.cards.append(new_card)
         if self.count <= 10:
-            if new_card.face == "A" and self.ace_count == 0:
+            if new_card.face == "Ace" and self.ace_count == 0:
                 new_card.value = 11
                 self.ace_count += 1
-            elif new_card.face == "A" and self.ace_count >=1:
+            elif new_card.face == "Ace" and self.ace_count >=1:
                 new_card.value = 1
                 self.ace_count+= 1
         else:
-            if new_card.face == "A":
+            if new_card.face == "Ace":
                 new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
+        if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
+            self.count -= 10
 
