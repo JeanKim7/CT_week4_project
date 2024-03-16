@@ -58,7 +58,7 @@ class Card:
 #         count+=1
 
 # print(count)
-            
+
 class Player:
     """Object representing a player"""
     
@@ -111,10 +111,10 @@ class Player:
                 new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
-        if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
+        if self.count > 21 and "Ace" in [card.face for card in self.cards]:
             for card in self.cards:
-                if card.face == "A":
-                    card. value = 1
+                if card.face == "Ace":
+                    card.value = 1
                     break
             self.count = 0
             for card in self.cards:
@@ -162,10 +162,10 @@ class Dealer:
                 new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
-        if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
+        if self.count > 21 and self.ace_count >=1:
             for card in self.cards:
-                if card.face == "A":
-                    card. value = 1
+                if card.face == "Ace":
+                    card.value = 1
                     break
             self.count = 0
             for card in self.cards:
