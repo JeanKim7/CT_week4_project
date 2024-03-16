@@ -41,7 +41,7 @@ class BlackJack:
         
     def hit_player(self):
         self.player.hit()
-        print(f"You now have a count of {self.player.count} and you have:")
+        print(f"You now have:")
         for card in self.player.cards:
             print(card)
         if self.player.count == 21:
@@ -70,7 +70,7 @@ class BlackJack:
         if self.dealer.count >= 17 and self.dealer.count<=21:
             if self.player.count > self.dealer.count:
                 self.player.money += self.player.current_bet
-                print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
+                print(f"Congratulations, you won! Your count is higher than the dealer's! You now have ${self.player.money:.2f}")
                 self.__reset()
             elif self.player.count < self.dealer.count:
                 print("You have a count lower than the dealer!")
@@ -82,13 +82,13 @@ class BlackJack:
             while self.dealer.count<17:
                 self.dealer.hit()
                 print("The dealer hits.")
-                print(f"The dealer has a count of {self.dealer.count} and has:")
+                print(f"The dealer has:")
                 for card in self.dealer.cards:
                     print(card)
             if self.dealer.count >= 17 and self.dealer.count<=21:
                 if self.player.count > self.dealer.count:
                     self.player.money += self.player.current_bet
-                    print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
+                    print(f"Congratulations, you won! Your count is higher than the dealer's! You now have ${self.player.money:.2f}")
                     self.__reset()
                 elif self.player.count < self.dealer.count:
                     print("You got a count lower than the dealer!")

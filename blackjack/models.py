@@ -112,7 +112,14 @@ class Player:
                 self.ace_count+= 1
         self.count += new_card.value
         if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
-            self.count -= 10
+            for card in self.cards:
+                if card.face == "A":
+                    card. value = 1
+                    break
+            self.count = 0
+            for card in self.cards:
+                self.count += card.value
+
 
 
 class Dealer:
@@ -156,5 +163,10 @@ class Dealer:
                 self.ace_count+= 1
         self.count += new_card.value
         if self.count >= 21 and "Ace" in [card.face for card in self.cards]:
-            self.count -= 10
-
+            for card in self.cards:
+                if card.face == "A":
+                    card. value = 1
+                    break
+            self.count = 0
+            for card in self.cards:
+                self.count += card.value

@@ -27,26 +27,22 @@ def play_blackjack():
         nextoption = input("What would you like to do next? (1. Play again 2. Quit) ")
         while nextoption not in ['1', '2']:
             print("Please enter 1 or 2 only!")
-            options = input("What would you like to do? (1. Play again 2. Quit) ")
+            nextoption = input("What would you like to do? (1. Play again 2. Quit) ")
         if nextoption == '1':
             cash_in_again = input("Would you like to cash in for more money? (1. Yes 2. No)")
             while cash_in_again not in ['1', '2']:
                 print("Please enter 1 or 2 only!")
-                cash_in_again = input("Would you like to cash in for more money? (1. Yes 2. No)")
+                cash_in_again = input("Would you like to cash in for more money? (1. Yes 2. No) ")
             if cash_in_again == '1':
-                amount = input("How much would you like to cash in? $ ")
+                amount = input("How much would you like to cash in? $")
                 game.player.money += float(amount)
                 if game.player.money <= 0:
                     print("You're broke! You can't play!")
                     break
-                else:
-                    continue
             elif cash_in_again == '2':
                 if game.player.money <= 0:
                     print("You're broke! You can't play!")
                     break
-                else:
-                    continue
         elif nextoption == '2':
             break
                 
