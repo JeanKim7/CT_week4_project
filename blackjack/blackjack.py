@@ -23,38 +23,45 @@ class BlackJack:
         self.player = Player()
         self.dealer = Dealer()
 
+    # function to add initial amount of money
     def cash_in(self):
         cashin = input("How much would you like to cash in for? \n$")
         self.player.money = float(cashin)
 
+    # Deal first 2 cards and print hands
     def shuffle_deal(self):
         self.player.place_bet()
         print("Shuffling and dealing cards...")
         time.sleep(2)
         self.player.initial_cards()
         self.dealer.initial_cards()
-        print(f"The dealer has the {self.dealer.cards[0]} and another face-down card.\n"
-              f"\nYou have the {self.player.cards[0]} and {self.player.cards[1]}")
+        print(f"The dealer has\n=== the {self.dealer.cards[0]} and another face-down card. ===\n"
+              f"\nYou have the\n=== {self.player.cards[0]} and {self.player.cards[1]} ===\n")
         if self.player.count == 21:
             self.stand()
 
-        
+    # function if player wants to hit    
     def hit_player(self):
         self.player.hit()
         print(f"You now have:")
         for card in self.player.cards:
             print(card)
+        
+        # Check dealer's hand if player's hand is 21
         if self.player.count == 21:
             self.stand()
+        # Lost if player's hand is over 21
         elif self.player.count > 21:
             print("You got over 21 and busted!")
             self.__lost()
 
+    # deduct money if player loses and reset all hands and cards taken out of deck
     def __lost(self):
         self.player.money -= self.player.current_bet
         self.__reset()
         print(f"Sorry, you lost! You now have ${self.player.money:.2f}")
 
+    # clear player's and ealer's hands and make sure no cards have been chosen to simulate a new deck
     def __reset(self):
         Card.chosen_cards = []
         self.player.cards = []
@@ -65,8 +72,10 @@ class BlackJack:
         self.dealer.count = 0
         self.dealer.ace_count = 0
 
+    # function for when the player's hand is finished
     def stand(self):
         print(f"The dealer's hand is {self.dealer.cards[0]} and {self.dealer.cards[1]}.")
+        # compare dealer's and player's hands if dealer's initial hand is 17 or higher, dealer does not need to hit
         if self.dealer.count >= 17 and self.dealer.count<=21:
             if self.player.count > self.dealer.count:
                 self.player.money += self.player.current_bet
@@ -75,16 +84,20 @@ class BlackJack:
             elif self.player.count < self.dealer.count:
                 print("You have a count lower than the dealer!")
                 self.__lost()
+            # reset hand if player and dealer draw
             else:
                 print("It's a draw. Place another bet to play again!")
                 self.__reset()
+        # dealer hits if their hand has a count less than 17
         elif self.dealer.count<17:
+            # keep hitting until dealer's hand count is over 17
             while self.dealer.count<17:
                 self.dealer.hit()
                 print("The dealer hits.")
                 print(f"The dealer has:")
                 for card in self.dealer.cards:
                     print(card)
+            # compare dealer and player's hand after dealer hits and count is over 17 but does not bust
             if self.dealer.count >= 17 and self.dealer.count<=21:
                 if self.player.count > self.dealer.count:
                     self.player.money += self.player.current_bet
@@ -96,6 +109,7 @@ class BlackJack:
                 else:
                     print("It's a draw. Place another bet to play again!")
                     self.__reset()
+            # Player wins money if the dealers busts
             else:
                 self.player.money += self.player.current_bet
                 print(f"Congratulations, you won! You now have ${self.player.money:.2f}")
