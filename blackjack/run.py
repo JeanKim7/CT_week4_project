@@ -5,8 +5,9 @@ from blackjack import BlackJack
 def play_blackjack():
     game = BlackJack()
 
-    print("Welcome to Jean's Casino! Let's play some blackjack!")
+    print("Welcome to Jean's Casino! Let's play some blackjack!\n")
     game.cash_in()
+    print(" ")
 
     while True:
         game.shuffle_deal()
@@ -37,23 +38,26 @@ def play_blackjack():
             nextoption = input("What would you like to do? (1. Play again 2. Quit) ")
         # Give option to cash in for more money
         if nextoption == '1':
-            cash_in_again = input("Would you like to cash in for more money? (1. Yes 2. No)")
+            cash_in_again = input("\nWould you like to cash in for more money? (1. Yes 2. No)")
             while cash_in_again not in ['1', '2']:
                 print("Please enter 1 or 2 only!")
-                cash_in_again = input("Would you like to cash in for more money? (1. Yes 2. No) ")
+                cash_in_again = input("\nWould you like to cash in for more money? (1. Yes 2. No) ")
             if cash_in_again == '1':
-                amount = input("How much would you like to cash in? $")
+                amount = input("\nHow much would you like to cash in? $")
+                print(" ")
                 game.player.money += float(amount)
                 # end game if they have no money
                 if game.player.money <= 0:
-                    print("You're broke! You can't play!")
+                    print("You're broke! You can't play!\n")
                     break
             elif cash_in_again == '2':
+                print(" ")
                 # end game if they don;t cash in and they have no money
                 if game.player.money <= 0:
-                    print("You're broke! You can't play!")
+                    print("You're broke! You can't play!\n")
                     break
         elif nextoption == '2':
+            print(" ")
             break
                 
 

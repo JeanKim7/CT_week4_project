@@ -63,11 +63,11 @@ class Player:
         bet_amount =input("How much would you like to bet?\n$")
         # Reprint input if inputs are incorrect
         while float(bet_amount) == False:
-            print("Please enter a number only!")
+            print("Please enter a number only!\n")
             bet_amount =input("How much would you like to bet?\n$")
         while float(bet_amount) >self.money:
-            print(f"You can't bet more than the amount you cashed in!")
-            bet_amount =input("How much would you like to bet?\n$")
+            print(f"\nYou can't bet more than the amount you cashed in!")
+            bet_amount =input("\nHow much would you like to bet?\n$")
         self.current_bet = float(bet_amount)
 
     # Deal first two cards
@@ -148,6 +148,15 @@ class Dealer:
                 card.value = 1
                 self.ace_count += 1
         self.count += (first_card.value +second_card.value)
+        # change ace value to one if they hit a soft 17, allow to hit again
+        if self.count == 17 and self.ace_count >=1:
+            for card in self.cards:
+                if card.face == "Ace":
+                    card.value = 1
+                    break
+            self.count = 0
+            for card in self.cards:
+                self.count += card.value
 
     # same as player class
     def hit(self):
@@ -166,7 +175,8 @@ class Dealer:
                 new_card.value = 1
                 self.ace_count+= 1
         self.count += new_card.value
-        if self.count > 21 and self.ace_count >=1:
+        # set ace value to 1 if they hit a soft 17 to be able to hit again, or they get over 21 and prevent uneccesary bust
+        if (self.count > 21 or self.count == 17) and self.ace_count >=1:
             for card in self.cards:
                 if card.face == "Ace":
                     card.value = 1
